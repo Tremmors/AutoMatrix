@@ -36,12 +36,21 @@ namespace automatrix
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            string code = this.rtePythonSource.Text;
+            
+            string code;
+            if(String.IsNullOrEmpty(this.rtePythonSource.SelectedText))
+            {
+                code = this.rtePythonSource.Text;
+            }
+            else
+            {
+                code = this.rtePythonSource.SelectedText;
+            }
+
             ScriptSource source = engine.CreateScriptSourceFromString(code,
                SourceCodeKind.Statements);
             try
             {
-                Task t = new Task(() => source.Execute(scope));
                 source.Execute(scope);
             }
             catch (Exception ex)

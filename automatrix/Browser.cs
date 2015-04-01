@@ -23,23 +23,54 @@ namespace automatrix
         /// </param>
         public Browser(WebBrowser _control) 
         {
- 
+
+            Console.WriteLine("Instanciated browser");
             this.IEWindow = _control;
+            this.IEWindow.DocumentCompleted += IEWindow_DocumentCompleted;
+            this.IEWindow.Navigating += IEWindow_Navigating;
+            this.IEWindow.ProgressChanged += IEWindow_ProgressChanged;
 
         }
+
+        void IEWindow_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
+        {
+
+            this.Loading = true;
+
+        }
+
+        void IEWindow_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+
+            Console.WriteLine("Navigating");
+            this.Loading = true;
+
+        }
+
+        void IEWindow_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            if (e.Url != this.IEWindow.Url)
+            {
+                Console.WriteLine("Document Completed");
+                this.Loading = false;
+            }
+        }
+
+        private bool Loading = false;
 
         /// <summary>
         ///     Wait for the page to load.
         /// </summary>
         public void wait()
         {
-
-            while (this.IEWindow.ReadyState != WebBrowserReadyState.Complete)
+            Console.WriteLine("Waiting");
+            while (this.Loading && this.IEWindow.ReadyState != WebBrowserReadyState.Complete)
             {
         
                 Application.DoEvents();
 
             }
+            Console.WriteLine("Continuing");
 
         }
 
@@ -51,9 +82,10 @@ namespace automatrix
         /// </param>
         public void open(string url)
         {
-
+            Console.WriteLine("Opening");
+            this.Loading = true;
             this.IEWindow.Navigate(url);
-            
+            this.wait();
             
         }
 
@@ -65,7 +97,7 @@ namespace automatrix
         /// </param>
         public void screenshot(string filename)
         {
-           
+            Console.WriteLine("Taking Screenshot {0}", filename);
             Bitmap bmp = LoadBitMapFromScreen();
             bmp.Save(filename);
 
@@ -130,7 +162,7 @@ namespace automatrix
         /// </param>
         public void set(string ID, string val)
         {
-
+            Console.WriteLine("Setting value: ID={0}, Val={1}", ID, val);
             HtmlDocument doc = this.IEWindow.Document;
             HtmlElement elem = doc.GetElementById(ID);
             if (elem != null)
@@ -153,7 +185,7 @@ namespace automatrix
         /// </returns>
         public string get(string ID)
         {
-
+            Console.WriteLine("Getting Value: ID={0}", ID);
             HtmlDocument doc = this.IEWindow.Document;
             HtmlElement elem = doc.GetElementById(ID);
             if (elem != null)
@@ -185,11 +217,13 @@ namespace automatrix
             if(elem != null)
             {
 
-                if(elem.TagName.Equals("input", StringComparison.InvariantCultureIgnoreCase ))
+                if(elem.TagName.Equals("input", StringComparison.InvariantCultureIgnoreCase ) || 
+                    elem.TagName.Equals("a", StringComparison.InvariantCultureIgnoreCase))
                 {
-
+                    Console.WriteLine("clicking ID={0}", ID);
+                    this.Loading = true;
                     elem.InvokeMember("click");
-
+                    this.wait();
                 }
 
             }
@@ -201,12 +235,15 @@ namespace automatrix
         /// </summary>
         public void submit()
         {
+            Console.WriteLine("Submitting");
             HtmlDocument doc = this.IEWindow.Document;
             foreach(HtmlElement frm in doc.Forms)
-            { 
+            {
+                this.Loading = true;
                 frm.InvokeMember("Submit");
 
             }
+            this.wait();
         }
 
     }
