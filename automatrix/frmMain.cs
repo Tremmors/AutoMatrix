@@ -1,4 +1,5 @@
 ﻿using IronPython.Hosting;
+using IronPython.Runtime.Exceptions;
 using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
 using System;
@@ -12,7 +13,9 @@ namespace automatrix
     {
 
         ScriptEngine engine;
+        
         ScriptScope scope;
+
         Browser b;
 
         public frmMain()
@@ -24,6 +27,8 @@ namespace automatrix
         {
 
             this.engine = Python.CreateEngine();
+            
+            this.engine.SetTrace(OnTraceback);
             this.scope = engine.CreateScope();
 
             this.b = new Browser(this.IEWindow);
@@ -32,6 +37,12 @@ namespace automatrix
 
         }
 
+        private TracebackDelegate OnTraceback(TraceBackFrame frame, string result, object payload)
+        {
+
+            return this.OnTraceback;
+
+        }
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -77,7 +88,9 @@ namespace automatrix
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             Application.Exit();
+        
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -86,6 +99,28 @@ namespace automatrix
             {
                 System.IO.File.WriteAllText(this.dialogSave.FileName, this.rtePythonSource.Text);
 
+            }
+        }
+
+        private void toolStripTextBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ToolStripTextBox tb = (ToolStripTextBox)sender;
+                if (!string.IsNullOrEmpty(tb.Text))
+                {
+                    try
+                    {
+                        if (this.b.screenshot(tb.Text))
+                        {
+                            this.toolStripStatusLabel1.Text = string.Format("Screenshot:'{0}' taken", tb.Text);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this.toolStripStatusLabel1.Text = "Error:" + ex.Message;
+                    }
+                }
             }
         }
 

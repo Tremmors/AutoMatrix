@@ -44,6 +44,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.dialogSave = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
+            this.screenshotFileNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -76,22 +79,24 @@
             // 
             this.IEWindow.AllowWebBrowserDrop = false;
             this.IEWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.IEWindow.Location = new System.Drawing.Point(0, 24);
+            this.IEWindow.Location = new System.Drawing.Point(0, 27);
             this.IEWindow.MinimumSize = new System.Drawing.Size(20, 20);
             this.IEWindow.Name = "IEWindow";
             this.IEWindow.ScriptErrorsSuppressed = true;
             this.IEWindow.ScrollBarsEnabled = false;
-            this.IEWindow.Size = new System.Drawing.Size(461, 393);
+            this.IEWindow.Size = new System.Drawing.Size(461, 390);
             this.IEWindow.TabIndex = 0;
             // 
             // menuMain
             // 
             this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.runToolStripMenuItem});
+            this.runToolStripMenuItem,
+            this.screenshotFileNameToolStripMenuItem,
+            this.toolStripTextBox2});
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
-            this.menuMain.Size = new System.Drawing.Size(461, 24);
+            this.menuMain.Size = new System.Drawing.Size(461, 27);
             this.menuMain.TabIndex = 1;
             this.menuMain.Text = "menuStrip1";
             // 
@@ -104,7 +109,7 @@
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 23);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
@@ -147,7 +152,7 @@
             // 
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
             this.runToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 23);
             this.runToolStripMenuItem.Text = "&Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
@@ -169,7 +174,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus});
+            this.lblStatus,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 420);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(624, 22);
@@ -184,6 +190,28 @@
             // 
             this.dialogSave.Filter = "python file|*.py|All files|*.*";
             // 
+            // toolStripTextBox2
+            // 
+            this.toolStripTextBox2.Name = "toolStripTextBox2";
+            this.toolStripTextBox2.Size = new System.Drawing.Size(125, 23);
+            this.toolStripTextBox2.Text = "screenshot.jpg";
+            this.toolStripTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox2_KeyDown);
+            // 
+            // screenshotFileNameToolStripMenuItem
+            // 
+            this.screenshotFileNameToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.screenshotFileNameToolStripMenuItem.Enabled = false;
+            this.screenshotFileNameToolStripMenuItem.Margin = new System.Windows.Forms.Padding(100, 0, 0, 0);
+            this.screenshotFileNameToolStripMenuItem.Name = "screenshotFileNameToolStripMenuItem";
+            this.screenshotFileNameToolStripMenuItem.ShowShortcutKeys = false;
+            this.screenshotFileNameToolStripMenuItem.Size = new System.Drawing.Size(133, 23);
+            this.screenshotFileNameToolStripMenuItem.Text = "Screenshot FileName:";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,6 +221,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuMain;
+            this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "frmMain";
             this.Text = "automatrix";
             this.Load += new System.EventHandler(this.frmMain_Load);
@@ -227,6 +256,9 @@
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog dialogSave;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
+        private System.Windows.Forms.ToolStripMenuItem screenshotFileNameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
